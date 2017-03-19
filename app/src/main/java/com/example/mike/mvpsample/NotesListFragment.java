@@ -3,7 +3,9 @@ package com.example.mike.mvpsample;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,8 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private NotesContract.Presenter mPresenter;
+
 
     public NotesListFragment() {
         // Required empty public constructor
@@ -74,6 +78,20 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mPresenter != null)
+        {
+            mPresenter.addNewNote();
+        }
+        else
+        {
+            Log.i("VIEW","Presenter is null");
+        }
+
     }
 
     @Override
