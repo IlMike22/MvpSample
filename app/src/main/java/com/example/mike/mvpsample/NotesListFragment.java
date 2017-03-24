@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.mike.mvpsample.classes.NotesContract;
+import com.example.mike.mvpsample.classes.NotesPresenter;
 
 
 /**
@@ -39,6 +41,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new NotesPresenter();
     }
 
     @Override
@@ -58,14 +61,32 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mPresenter != null)
-        {
-            mPresenter.addNewNote();
-        }
-        else
-        {
-            Log.i("VIEW","Presenter is null");
-        }
+
+        Button btnAddNote = (Button) view.findViewById(R.id.btnAddNote);
+
+        btnAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPresenter != null)
+                    mPresenter.addNewNote();
+                else
+                    Log.i("VIEW","Presenter is null");
+
+                // kurze Info zum weiteren Vorgehen
+
+                // Der View kümmert sich nur um die Ausgabe und das Weiterreichen von Eingabedaten
+                // Der Presenter gibt die Daten nur weiter an das Model oder an den View. Er ist nur eine Vermittlungsstelle.
+                // Das Model kümmert sich um die Business Logik und das Speichern, Laden von Daten beispielsweise aus einer Datenbank
+
+                // Der Presenter wird im View referenziert.
+                // Der View ruft den Presenter auf, sobald mit den Daten irgendwas geschehen soll
+                // Der Presenter refernziert das Model und den View
+                // Der Presenter gibt die Daten des Views an das Model weiter PLUS Listener auf den der Presenter hört
+                // Das Model verarbeitet die Daten und sagt dem Listener bescheid wenn es fertig ist
+                // Der Presenter kriegt über den Listener mit wann das Model fertig ist und sagt dann dem View bescheid
+                // beispielsweise einen Toast auszugeben
+            }
+        });
 
     }
 
