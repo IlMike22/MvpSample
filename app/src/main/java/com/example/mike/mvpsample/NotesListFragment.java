@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,10 +68,16 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         btnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mPresenter != null)
-                    mPresenter.addNewNote();
-                else
-                    Log.i("VIEW","Presenter is null");
+
+                DialogFragment newNoteDialog = new NewNoteDialog();
+                newNoteDialog.show(getActivity().getSupportFragmentManager(), "test");
+
+                Log.i("info","dialog successfully opened");
+
+//                if (mPresenter != null)
+//                    mPresenter.addNewNote();
+//                else
+//                    Log.i("VIEW","Presenter is null");
 
                 // kurze Info zum weiteren Vorgehen
 

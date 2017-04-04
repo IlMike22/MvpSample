@@ -14,6 +14,7 @@ public class NotesPresenter implements NotesContract.Presenter {
 
         Log.i("PRESENTER","Hello from Presenter");
 
+
     }
 
     @Override
