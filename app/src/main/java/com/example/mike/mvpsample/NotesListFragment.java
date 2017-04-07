@@ -4,16 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.mike.mvpsample.classes.NotesContract;
 import com.example.mike.mvpsample.classes.NotesPresenter;
+import com.example.mike.mvpsample.classes.adapters.RvNotesListAdapter;
 
 
 /**
@@ -26,9 +29,16 @@ import com.example.mike.mvpsample.classes.NotesPresenter;
  */
 public class NotesListFragment extends Fragment implements NotesContract.View {
 
+
+
     private OnFragmentInteractionListener mListener;
     private NotesContract.Presenter mPresenter;
 
+    private RecyclerView rvNotesList;
+    private RvNotesListAdapter rvAdapter;
+    private RecyclerView.LayoutManager rvLayoutManager;
+
+    String dataArray[] = {"Note 1","Note 2", "Note 3"};
 
     public NotesListFragment() {
         // Required empty public constructor
@@ -43,6 +53,8 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new NotesPresenter();
+
+
     }
 
     @Override
@@ -63,16 +75,25 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnAddNote = (Button) view.findViewById(R.id.btnAddNote);
+        rvNotesList = (RecyclerView) view.findViewById(R.id.rvNotesList);
+        rvNotesList.setHasFixedSize(true);
+        rvLayoutManager = new LinearLayoutManager(getActivity());
+        rvNotesList.setLayoutManager(rvLayoutManager);
+        rvAdapter = new RvNotesListAdapter(dataArray);
+        rvNotesList.setAdapter(rvAdapter);
 
-        btnAddNote.setOnClickListener(new View.OnClickListener() {
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 DialogFragment newNoteDialog = new NewNoteDialog();
                 newNoteDialog.show(getActivity().getSupportFragmentManager(), "test");
 
                 Log.i("info","dialog successfully opened");
+
+            }
+        });
 
 //                if (mPresenter != null)
 //                    mPresenter.addNewNote();
@@ -92,8 +113,6 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                 // Das Model verarbeitet die Daten und sagt dem Listener bescheid wenn es fertig ist
                 // Der Presenter kriegt über den Listener mit wann das Model fertig ist und sagt dann dem View bescheid
                 // beispielsweise einen Toast auszugeben
-            }
-        });
 
     }
 
