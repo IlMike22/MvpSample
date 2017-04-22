@@ -18,6 +18,9 @@ import com.example.mike.mvpsample.classes.NotesContract;
 import com.example.mike.mvpsample.classes.NotesPresenter;
 import com.example.mike.mvpsample.classes.adapters.RvNotesListAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +39,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     private RvNotesListAdapter rvAdapter;
     private RecyclerView.LayoutManager rvLayoutManager;
 
-    String dataArray[] = {"Note 1","Note 2", "Note 3"};
+    List<String> dataList = new ArrayList<String>();
 
     public NotesListFragment() {
         // Required empty public constructor
@@ -75,7 +78,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         rvNotesList.setHasFixedSize(true);
         rvLayoutManager = new LinearLayoutManager(getActivity());
         rvNotesList.setLayoutManager(rvLayoutManager);
-        rvAdapter = new RvNotesListAdapter(dataArray);
+        rvAdapter = new RvNotesListAdapter(dataList);
         rvNotesList.setAdapter(rvAdapter);
 
 
@@ -88,6 +91,9 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                     @Override
                     public void userSelectedValue(String value) {
                         Log.i("info","We are in fragment and value of dialog is " + value);
+                        dataList.add(value);
+                        Log.i("info","item count from adapter is " + rvAdapter.getItemCount());
+                        rvAdapter.notifyDataSetChanged();
                     }
 
                     @Override

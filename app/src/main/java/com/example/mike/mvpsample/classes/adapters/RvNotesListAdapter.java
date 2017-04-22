@@ -7,13 +7,15 @@ import android.widget.TextView;
 
 import com.example.mike.mvpsample.R;
 
+import java.util.List;
+
 /**
  * Created by MWidlok on 07.04.2017.
  */
 
 public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.ViewHolder> {
 
-	private String[] notesDataset;
+	private List<String> notesDataset;
 
 	// Referenz auf den View eines jeden Items in der Liste.
 	public static class ViewHolder extends RecyclerView.ViewHolder
@@ -29,7 +31,7 @@ public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.
 
 	// Konstruktor der initial die Daten erhält..
 
-	public RvNotesListAdapter(String[] notes)
+	public RvNotesListAdapter(List<String> notes)
 	{
 		notesDataset = notes;
 	}
@@ -44,11 +46,11 @@ public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.
 
 	@Override
 	public void onBindViewHolder(RvNotesListAdapter.ViewHolder holder, int position) {
-		holder.tvNote.setText(notesDataset[position]);
+		holder.tvNote.setText(notesDataset.get(position));
 	}
 
 	@Override
 	public int getItemCount() {
-		return notesDataset.length;
+		return notesDataset.size();
 	}
 }
