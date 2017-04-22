@@ -29,8 +29,6 @@ import com.example.mike.mvpsample.classes.adapters.RvNotesListAdapter;
  */
 public class NotesListFragment extends Fragment implements NotesContract.View {
 
-
-
     private OnFragmentInteractionListener mListener;
     private NotesContract.Presenter mPresenter;
 
@@ -53,8 +51,6 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new NotesPresenter();
-
-
     }
 
     @Override
@@ -84,36 +80,27 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
 
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        final NewNoteDialog newNoteDialog = new NewNoteDialog();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newNoteDialog = new NewNoteDialog();
-                newNoteDialog.show(getActivity().getSupportFragmentManager(), "test");
+                newNoteDialog.setMyDialogListener(new NewNoteDialog.MyDialogListener() {
+                    @Override
+                    public void userSelectedValue(String value) {
+                        Log.i("info","We are in fragment and value of dialog is " + value);
+                    }
 
+                    @Override
+                    public void userCanceled() {
+                        Log.i("info","we are now in fragement. user has closed the dialog.");
+
+                    }
+                });
+                newNoteDialog.show(getActivity().getSupportFragmentManager(), "test");
                 Log.i("info","dialog successfully opened");
 
             }
         });
-
-//                if (mPresenter != null)
-//                    mPresenter.addNewNote();
-//                else
-//                    Log.i("VIEW","Presenter is null");
-
-                // kurze Info zum weiteren Vorgehen
-
-                // Der View kümmert sich nur um die Ausgabe und das Weiterreichen von Eingabedaten
-                // Der Presenter gibt die Daten nur weiter an das Model oder an den View. Er ist nur eine Vermittlungsstelle.
-                // Das Model kümmert sich um die Business Logik und das Speichern, Laden von Daten beispielsweise aus einer Datenbank
-
-                // Der Presenter wird im View referenziert.
-                // Der View ruft den Presenter auf, sobald mit den Daten irgendwas geschehen soll
-                // Der Presenter refernziert das Model und den View
-                // Der Presenter gibt die Daten des Views an das Model weiter PLUS Listener auf den der Presenter hört
-                // Das Model verarbeitet die Daten und sagt dem Listener bescheid wenn es fertig ist
-                // Der Presenter kriegt über den Listener mit wann das Model fertig ist und sagt dann dem View bescheid
-                // beispielsweise einen Toast auszugeben
-
     }
 
     @Override
