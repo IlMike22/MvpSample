@@ -5,13 +5,16 @@
               android:orientation="vertical"
               >
     <TextView
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:layout_marginLeft="5dp"
+        android:textAlignment="center"
         android:text="@string/newNoteIntro"/>
 
     <EditText
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:layout_marginLeft="5dp"
         />
 
 </LinearLayout>
