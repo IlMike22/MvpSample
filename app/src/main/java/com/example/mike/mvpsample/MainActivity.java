@@ -1,6 +1,7 @@
 package com.example.mike.mvpsample;
 
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,12 +14,23 @@ import com.example.mike.mvpsample.classes.NotesPresenter;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    // Step 1 - using sqllite: Define the database and names for database and table.
+    SQLiteDatabase mvpSamplDatabase;
+    final static String DB_NAME = "MvpSampleDb";
+    final static String NOTES_TABLE = "Notes";
+    final static String COLUMN_NAME_HEAD = "head";
+    final static String COLUMN_NAME_CONTENT = "content";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        onCreateAndGetDb();
 
         final NotesPresenter notesPresenter = new NotesPresenter();
 
@@ -28,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         NotesListFragment notesListFragment = new NotesListFragment();
         fragmentTransaction.add(R.id.fragmentContainer, notesListFragment);
         fragmentTransaction.commit();
+    }
+
+    private void onCreateAndGetDb() {
+        mvpSamplDatabase = openOrCreateDatabase(DB_NAME, MODE_PRIVATE, null);
+        mvpSamplDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + NOTES_TABLE +
+                "(id integer primary key autoincrement," +
+                COLUMN_NAME_HEAD + " varchar(100)," +
+                COLUMN_NAME_CONTENT + " varchar(200));");
     }
 
     @Override

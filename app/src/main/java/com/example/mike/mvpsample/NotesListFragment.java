@@ -1,6 +1,9 @@
 package com.example.mike.mvpsample;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +23,8 @@ import com.example.mike.mvpsample.classes.adapters.RvNotesListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -41,6 +46,8 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
 
     List<String> dataList = new ArrayList<String>();
 
+    SQLiteDatabase notesDb = null;
+
     public NotesListFragment() {
         // Required empty public constructor
     }
@@ -54,6 +61,42 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new NotesPresenter();
+
+        notesDb = getActivity().openOrCreateDatabase(MainActivity.DB_NAME, MODE_PRIVATE, null);
+
+        // todo now read all the content from db and print it.
+        // therefore we have to define some information..
+
+        String[] projection = { MainActivity.COLUMN_NAME_HEAD};
+        String sortOrder = MainActivity.COLUMN_NAME_HEAD + " DESC";
+
+        Cursor cursor = notesDb.query(
+                MainActivity.NOTES_TABLE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder);
+
+        try
+        {
+            List itemIds = new ArrayList<>();
+            while(cursor.moveToNext())
+            {
+                long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(MainActivity.COLUMN_NAME_HEAD));
+                itemIds.add(itemId);
+                Log.i("sqllite","Reading successfull! Current item id is: " + itemId);
+            }
+        }
+        catch(Exception exc)
+        {
+            Log.i("sqllite","Db Read failed. Reason: " + exc.getMessage());
+        }
+
+
+
+
     }
 
     @Override
@@ -94,6 +137,18 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                         dataList.add(value);
                         Log.i("info","item count from adapter is " + rvAdapter.getItemCount());
                         rvAdapter.notifyDataSetChanged();
+                        Log.i("info","now trying to store the data into database..");
+
+                        try
+                        {
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put(MainActivity.COLUMN_NAME_HEAD, value);
+                            long newRowId = notesDb.insert(MainActivity.NOTES_TABLE, null, contentValues);
+                            Log.i("sqllite","Row was successfully created. Id is " + newRowId);
+                        }
+                        catch(Exception exc) {
+                            Log.i("sqllite","An error occured during creating the row. Reason: " + exc.getMessage());
+                        }
                     }
 
                     @Override
