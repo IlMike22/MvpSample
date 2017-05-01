@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private void onCreateAndGetDb() {
         mvpSamplDatabase = openOrCreateDatabase(DB_NAME, MODE_PRIVATE, null);
         mvpSamplDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + NOTES_TABLE +
-                "(id integer primary key autoincrement," +
+                "(id integer primary key," +
                 COLUMN_NAME_HEAD + " varchar(100)," +
                 COLUMN_NAME_CONTENT + " varchar(200));");
     }

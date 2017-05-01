@@ -81,22 +81,18 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
 
         try
         {
-            List itemIds = new ArrayList<>();
             while(cursor.moveToNext())
             {
                 long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(MainActivity.COLUMN_NAME_HEAD));
-                itemIds.add(itemId);
-                Log.i("sqllite","Reading successfull! Current item id is: " + itemId);
+                String test = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
+                Log.i("sqllite","Current head is " + test);
             }
+            cursor.close();
         }
         catch(Exception exc)
         {
             Log.i("sqllite","Db Read failed. Reason: " + exc.getMessage());
         }
-
-
-
-
     }
 
     @Override
