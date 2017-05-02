@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,8 +83,9 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
             while(cursor.moveToNext())
             {
                 long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(MainActivity.COLUMN_NAME_HEAD));
-                String test = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
-                Log.i("sqllite","Current head is " + test);
+                String noteHead = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
+                Log.i("sqllite","Current head is " + noteHead +". Writing it into dataList...");
+                dataList.add(noteHead);
             }
             cursor.close();
         }
