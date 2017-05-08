@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mike.mvpsample.R;
+import com.example.mike.mvpsample.data.Note;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.ViewHolder> {
 
-	private List<String> notesDataset;
+	private List<Note> notesDataset;
 
 	// Referenz auf den View eines jeden Items in der Liste.
 	public static class ViewHolder extends RecyclerView.ViewHolder
@@ -31,7 +32,7 @@ public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.
 
 	// Konstruktor der initial die Daten erhält..
 
-	public RvNotesListAdapter(List<String> notes)
+	public RvNotesListAdapter(List<Note> notes)
 	{
 		notesDataset = notes;
 	}
@@ -46,7 +47,7 @@ public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.
 
 	@Override
 	public void onBindViewHolder(RvNotesListAdapter.ViewHolder holder, int position) {
-		holder.tvNote.setText(notesDataset.get(position));
+		holder.tvNote.setText(notesDataset.get(position).getTitle());
 	}
 
 	@Override

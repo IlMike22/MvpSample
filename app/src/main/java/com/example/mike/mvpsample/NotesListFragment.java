@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.example.mike.mvpsample.classes.NotesContract;
 import com.example.mike.mvpsample.classes.NotesPresenter;
 import com.example.mike.mvpsample.classes.adapters.RvNotesListAdapter;
+import com.example.mike.mvpsample.data.Note;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
     private RvNotesListAdapter rvAdapter;
     private RecyclerView.LayoutManager rvLayoutManager;
 
-    List<String> dataList = new ArrayList<String>();
+    List<Note> dataList = new ArrayList<Note>();
 
     SQLiteDatabase notesDb = null;
 
@@ -82,10 +83,13 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         {
             while(cursor.moveToNext())
             {
+                // Attention: Id of note is always 0! This has to be changed before release!
                 long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(MainActivity.COLUMN_NAME_HEAD));
-                String noteHead = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
-                Log.i("sqllite","Current head is " + noteHead +". Writing it into dataList...");
-                dataList.add(noteHead);
+                String title = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
+                String description = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_CONTENT));
+                Note note = new Note(0,title,description);
+                Log.i("sqllite","Current head is " + note.getTitle() +". Writing it into dataList...");
+                dataList.add(note);
             }
             cursor.close();
         }
@@ -121,6 +125,8 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         rvNotesList.setAdapter(rvAdapter);
 
 
+
+
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         final NewNoteDialog newNoteDialog = new NewNoteDialog();
         fab.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +134,9 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
             public void onClick(View view) {
                 newNoteDialog.setMyDialogListener(new NewNoteDialog.MyDialogListener() {
                     @Override
-                    public void userSelectedValue(String value) {
-                        Log.i("info","We are in fragment and value of dialog is " + value);
-                        dataList.add(value);
+                    public void userSelectedValue(Note note) {
+                        Log.i("info","We are in fragment and value of dialog is " + note.getTitle() + " and " + note.getDescription());
+                        dataList.add(note);
                         Log.i("info","item count from adapter is " + rvAdapter.getItemCount());
                         rvAdapter.notifyDataSetChanged();
                         Log.i("info","now trying to store the data into database..");
@@ -138,7 +144,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                         try
                         {
                             ContentValues contentValues = new ContentValues();
-                            contentValues.put(MainActivity.COLUMN_NAME_HEAD, value);
+                            contentValues.put(MainActivity.COLUMN_NAME_HEAD, note.getTitle());
                             long newRowId = notesDb.insert(MainActivity.NOTES_TABLE, null, contentValues);
                             Log.i("sqllite","Row was successfully created. Id is " + newRowId);
                         }

@@ -11,11 +11,35 @@
         android:layout_marginTop="20dp"
         android:text="@string/newNoteIntro"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/newNoteTitle"
+        android:layout_marginLeft="5dp"/>
+
+
     <EditText
-        android:id="@+id/edItemText"
+        android:id="@+id/etItemTitle"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginLeft="5dp"
+        android:inputType="text"
+        android:maxLines="1"
         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/newNoteDescription"
+        android:layout_marginLeft="5dp"/>
+
+    <EditText
+        android:id="@+id/etItemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="5dp"
+        />
+
 
 </LinearLayout>
