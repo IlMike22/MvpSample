@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -67,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.action_drop_table)
+            Log.i("mvp","Deleting whole table...");
+        try
+        {
+            mvpSamplDatabase.execSQL("DROP TABLE IF EXISTS " + NOTES_TABLE);
+            Log.i("mvp","Deleted table successfully.");
+        }
+        catch(Exception exc)
+        {
+            Log.e("mvp","Deleting table failed. Reason: " + exc.getMessage());
         }
 
         return super.onOptionsItemSelected(item);

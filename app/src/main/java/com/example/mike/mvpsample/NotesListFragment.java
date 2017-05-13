@@ -67,7 +67,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         // todo now read all the content from db and print it.
         // therefore we have to define some information..
 
-        String[] projection = { MainActivity.COLUMN_NAME_HEAD};
+        String[] projection = { MainActivity.COLUMN_NAME_HEAD, MainActivity.COLUMN_NAME_CONTENT};
         String sortOrder = MainActivity.COLUMN_NAME_HEAD + " DESC";
 
         Cursor cursor = notesDb.query(
@@ -83,11 +83,12 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         {
             while(cursor.moveToNext())
             {
+
                 // Attention: Id of note is always 0! This has to be changed before release!
                 long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(MainActivity.COLUMN_NAME_HEAD));
                 String title = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
                 String description = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_CONTENT));
-                Note note = new Note(0,title,description);
+                Note note = new Note((int) itemId,title,description);
                 Log.i("sqllite","Current head is " + note.getTitle() +". Writing it into dataList...");
                 dataList.add(note);
             }
@@ -95,7 +96,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         }
         catch(Exception exc)
         {
-            Log.i("sqllite","Db Read failed. Reason: " + exc.getMessage());
+            Log.e("sqllite","Db Read failed. Reason: " + exc.getMessage());
         }
     }
 
@@ -145,6 +146,7 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                         {
                             ContentValues contentValues = new ContentValues();
                             contentValues.put(MainActivity.COLUMN_NAME_HEAD, note.getTitle());
+                            contentValues.put(MainActivity.COLUMN_NAME_CONTENT, note.getDescription());
                             long newRowId = notesDb.insert(MainActivity.NOTES_TABLE, null, contentValues);
                             Log.i("sqllite","Row was successfully created. Id is " + newRowId);
                         }

@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_drop_table"
+        android:orderInCategory="100"
+        android:title="Tabelle löschen"
+        app:showAsAction="never"/>
 </menu>

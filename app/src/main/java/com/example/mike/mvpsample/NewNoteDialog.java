@@ -50,7 +50,7 @@ public class NewNoteDialog extends DialogFragment
 
 					   EditText etItemText = (EditText) view.findViewById(R.id.etItemTitle);
 				       EditText etItemDescription = (EditText) view.findViewById(R.id.etItemDescription);
-				       if (!etItemText.getText().toString().isEmpty() && etItemDescription.getText().toString().isEmpty())
+				       if (!etItemText.getText().toString().isEmpty() && !etItemDescription.getText().toString().isEmpty())
 				       {
 					       Note note = new Note(0,etItemText.getText().toString(), etItemDescription.getText().toString());
 					       myDialogListener.userSelectedValue(note);
