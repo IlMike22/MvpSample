@@ -12,7 +12,7 @@ public class NotesPresenter implements NotesContract.Presenter {
     @Override
     public void addNewNote() {
 
-        Log.i("PRESENTER","Hello from Presenter");
+        Log.i("mvpInfo","hello from presenter");
 
 
     }

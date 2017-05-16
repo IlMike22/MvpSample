@@ -15,15 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.mike.mvpsample.classes.NotesContract;
 import com.example.mike.mvpsample.classes.NotesPresenter;
 import com.example.mike.mvpsample.classes.adapters.RvNotesListAdapter;
 import com.example.mike.mvpsample.data.Note;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -89,14 +86,14 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                 String title = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_HEAD));
                 String description = cursor.getString(cursor.getColumnIndex(MainActivity.COLUMN_NAME_CONTENT));
                 Note note = new Note((int) itemId,title,description);
-                Log.i("sqllite","Current head is " + note.getTitle() +". Writing it into dataList...");
+                Log.i("mvpInfo","Current head is " + note.getTitle() +". Writing it into dataList...");
                 dataList.add(note);
             }
             cursor.close();
         }
         catch(Exception exc)
         {
-            Log.e("sqllite","Db Read failed. Reason: " + exc.getMessage());
+            Log.e("mvpInfo","Db Read failed. Reason: " + exc.getMessage());
         }
     }
 
@@ -136,11 +133,9 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                 newNoteDialog.setMyDialogListener(new NewNoteDialog.MyDialogListener() {
                     @Override
                     public void userSelectedValue(Note note) {
-                        Log.i("info","We are in fragment and value of dialog is " + note.getTitle() + " and " + note.getDescription());
                         dataList.add(note);
-                        Log.i("info","item count from adapter is " + rvAdapter.getItemCount());
+                        Log.i("mvpInfo","item count from adapter is " + rvAdapter.getItemCount());
                         rvAdapter.notifyDataSetChanged();
-                        Log.i("info","now trying to store the data into database..");
 
                         try
                         {
@@ -148,22 +143,18 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
                             contentValues.put(MainActivity.COLUMN_NAME_HEAD, note.getTitle());
                             contentValues.put(MainActivity.COLUMN_NAME_CONTENT, note.getDescription());
                             long newRowId = notesDb.insert(MainActivity.NOTES_TABLE, null, contentValues);
-                            Log.i("sqllite","Row was successfully created. Id is " + newRowId);
+                            Log.i("mvpInfo","Row was successfully created. Id is " + newRowId);
                         }
                         catch(Exception exc) {
-                            Log.i("sqllite","An error occured during creating the row. Reason: " + exc.getMessage());
+                            Log.i("mvpInfo","An error occured during creating the row. Reason: " + exc.getMessage());
                         }
                     }
 
                     @Override
                     public void userCanceled() {
-                        Log.i("info","we are now in fragement. user has closed the dialog.");
-
                     }
                 });
                 newNoteDialog.show(getActivity().getSupportFragmentManager(), "test");
-                Log.i("info","dialog successfully opened");
-
             }
         });
     }

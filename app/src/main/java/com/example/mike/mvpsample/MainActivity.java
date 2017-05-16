@@ -70,15 +70,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.action_drop_table)
-            Log.i("mvp","Deleting whole table...");
+            Log.i("mvpInfo","deleting the whole table...");
         try
         {
             mvpSamplDatabase.execSQL("DROP TABLE IF EXISTS " + NOTES_TABLE);
-            Log.i("mvp","Deleted table successfully.");
+            Log.i("mvpInfo","table deleted.");
         }
         catch(Exception exc)
         {
-            Log.e("mvp","Deleting table failed. Reason: " + exc.getMessage());
+            Log.e("mvpInfo","deleting the table failed. Reason: " + exc.getMessage());
         }
 
         return super.onOptionsItemSelected(item);

@@ -57,7 +57,7 @@ public class NewNoteDialog extends DialogFragment
 				       }
 				       else
 				       {
-					       Log.e("info","new Note does not have either a title or a description");
+					       Log.e("mvpInfo","new note does not have either a title or a description");
 				       }
 
 					   dismiss();
