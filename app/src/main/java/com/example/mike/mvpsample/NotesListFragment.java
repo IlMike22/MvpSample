@@ -122,9 +122,6 @@ public class NotesListFragment extends Fragment implements NotesContract.View {
         rvAdapter = new RvNotesListAdapter(dataList);
         rvNotesList.setAdapter(rvAdapter);
 
-
-
-
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         final NewNoteDialog newNoteDialog = new NewNoteDialog();
         fab.setOnClickListener(new View.OnClickListener() {

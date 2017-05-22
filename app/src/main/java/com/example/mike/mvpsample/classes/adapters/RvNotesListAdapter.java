@@ -40,7 +40,6 @@ public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.
 	@Override
 	public RvNotesListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		LinearLayout llNote = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.tv_noteitem, parent, false);
-		TextView tvNoteItem = (TextView) llNote.findViewById(R.id.tvNoteItem);
 		ViewHolder vh = new ViewHolder(llNote);
 		return vh;
 	}
@@ -49,7 +48,9 @@ public class RvNotesListAdapter extends RecyclerView.Adapter<RvNotesListAdapter.
 	public void onBindViewHolder(RvNotesListAdapter.ViewHolder holder, int position) {
 		LinearLayout llNote = holder.llNoteItem;
 		TextView tvNoteItem = (TextView) llNote.findViewById(R.id.tvNoteItem);
+		TextView tvNoteItemDesc = (TextView) llNote.findViewById(R.id.tvNoteDescription);
 		tvNoteItem.setText(notesDataset.get(position).getTitle());
+		tvNoteItemDesc.setText(notesDataset.get(position).getDescription());
 	}
 
 	@Override
